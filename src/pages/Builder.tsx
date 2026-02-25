@@ -429,33 +429,122 @@ const Builder: React.FC = () => {
                       )}
 
                       {block.type === "image" && (
-                        <input
-                          value={block.content}
-                          onChange={(e) => updateBlock(block.id, { content: e.target.value })}
-                          placeholder="رابط الصورة (URL)"
-                          className="w-full bg-input border border-gold/20 rounded-xl px-4 py-3 text-foreground focus:outline-none focus:border-primary transition-colors text-sm"
-                          dir="ltr"
-                        />
+                        <div className="space-y-3">
+                          <input
+                            value={block.title || ""}
+                            onChange={(e) => updateBlock(block.id, { title: e.target.value })}
+                            placeholder="عنوان الصورة (اختياري)"
+                            className="w-full bg-input border border-gold/20 rounded-xl px-4 py-2 text-foreground focus:outline-none focus:border-primary transition-colors text-sm"
+                          />
+                          <label className="flex flex-col items-center justify-center gap-3 w-full min-h-[120px] bg-input border-2 border-dashed border-gold/30 rounded-xl cursor-pointer hover:border-primary transition-colors p-4">
+                            {block.content ? (
+                              <img src={block.content} alt="معاينة" className="max-h-48 rounded-lg object-contain" />
+                            ) : (
+                              <>
+                                <Image className="w-10 h-10 text-muted-foreground" />
+                                <span className="text-sm text-muted-foreground">اضغط لاختيار صورة من جهازك</span>
+                              </>
+                            )}
+                            <input
+                              type="file"
+                              accept="image/*"
+                              className="hidden"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (!file) return;
+                                const reader = new FileReader();
+                                reader.onload = () => updateBlock(block.id, { content: reader.result as string });
+                                reader.readAsDataURL(file);
+                              }}
+                            />
+                          </label>
+                          {block.content && (
+                            <button
+                              onClick={() => updateBlock(block.id, { content: "" })}
+                              className="text-xs text-destructive hover:underline"
+                            >
+                              إزالة الصورة
+                            </button>
+                          )}
+                        </div>
                       )}
 
                       {block.type === "music" && (
-                        <input
-                          value={block.content}
-                          onChange={(e) => updateBlock(block.id, { content: e.target.value })}
-                          placeholder="رابط الموسيقى (URL)"
-                          className="w-full bg-input border border-gold/20 rounded-xl px-4 py-3 text-foreground focus:outline-none focus:border-primary transition-colors text-sm"
-                          dir="ltr"
-                        />
+                        <div className="space-y-3">
+                          <label className="flex flex-col items-center justify-center gap-3 w-full min-h-[100px] bg-input border-2 border-dashed border-gold/30 rounded-xl cursor-pointer hover:border-primary transition-colors p-4">
+                            {block.content ? (
+                              <div className="w-full space-y-3">
+                                <div className="flex items-center justify-center gap-2 text-primary">
+                                  <Music className="w-6 h-6" />
+                                  <span className="text-sm text-foreground">تم رفع الموسيقى ✓</span>
+                                </div>
+                                <audio controls className="w-full" src={block.content} />
+                              </div>
+                            ) : (
+                              <>
+                                <Music className="w-10 h-10 text-muted-foreground" />
+                                <span className="text-sm text-muted-foreground">اضغط لاختيار ملف صوتي من جهازك</span>
+                                <span className="text-xs text-muted-foreground/60">MP3, WAV, M4A, OGG</span>
+                              </>
+                            )}
+                            <input
+                              type="file"
+                              accept="audio/*"
+                              className="hidden"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (!file) return;
+                                const reader = new FileReader();
+                                reader.onload = () => updateBlock(block.id, { content: reader.result as string });
+                                reader.readAsDataURL(file);
+                              }}
+                            />
+                          </label>
+                          {block.content && (
+                            <button
+                              onClick={() => updateBlock(block.id, { content: "" })}
+                              className="text-xs text-destructive hover:underline"
+                            >
+                              إزالة الموسيقى
+                            </button>
+                          )}
+                        </div>
                       )}
 
                       {block.type === "video" && (
-                        <input
-                          value={block.content}
-                          onChange={(e) => updateBlock(block.id, { content: e.target.value })}
-                          placeholder="رابط الفيديو (YouTube أو رابط مباشر)"
-                          className="w-full bg-input border border-gold/20 rounded-xl px-4 py-3 text-foreground focus:outline-none focus:border-primary transition-colors text-sm"
-                          dir="ltr"
-                        />
+                        <div className="space-y-3">
+                          <label className="flex flex-col items-center justify-center gap-3 w-full min-h-[120px] bg-input border-2 border-dashed border-gold/30 rounded-xl cursor-pointer hover:border-primary transition-colors p-4">
+                            {block.content ? (
+                              <video controls className="w-full rounded-xl max-h-64" src={block.content} />
+                            ) : (
+                              <>
+                                <Video className="w-10 h-10 text-muted-foreground" />
+                                <span className="text-sm text-muted-foreground">اضغط لاختيار فيديو من جهازك</span>
+                                <span className="text-xs text-muted-foreground/60">MP4, WebM, MOV</span>
+                              </>
+                            )}
+                            <input
+                              type="file"
+                              accept="video/*"
+                              className="hidden"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (!file) return;
+                                const reader = new FileReader();
+                                reader.onload = () => updateBlock(block.id, { content: reader.result as string });
+                                reader.readAsDataURL(file);
+                              }}
+                            />
+                          </label>
+                          {block.content && (
+                            <button
+                              onClick={() => updateBlock(block.id, { content: "" })}
+                              className="text-xs text-destructive hover:underline"
+                            >
+                              إزالة الفيديو
+                            </button>
+                          )}
+                        </div>
                       )}
 
                       {block.type === "hidden-message" && (
