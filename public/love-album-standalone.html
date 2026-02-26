@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ألبوم الحب - أنشئ لحظات لا تُنسى</title>
+<meta name="description" content="أنشئ ألبوم حب تفاعلي رومانسي لمن تحب">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Tajawal:wght@300;400;500;700;800&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   CSS - كل الستايلات
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0d0d0d;
+  --fg: #e6d5b8;
+  --card: #141414;
+  --muted: #1f1f1f;
+  --muted-fg: #8a7a66;
+  --gold: #b8860b;
+  --gold-light: #d4a74a;
+  --gold-dark: #8a6508;
+  --rose: #c44569;
+  --rose-light: #e06080;
+  --wine: #2a0f1a;
+  --input-bg: #1a1a1a;
+  --border-gold: rgba(184,134,11,0.3);
+  --border-gold-strong: rgba(184,134,11,0.6);
+  --destructive: #e74c3c;
+  --green: #27ae60;
+  --radius: 12px;
+  --font-heading: 'Playfair Display', 'Amiri', serif;
+  --font-body: 'Tajawal', sans-serif;
+  --font-amiri: 'Amiri', serif;
+  --shadow-gold: 0 0 30px rgba(184,134,11,0.15), 0 0 60px rgba(184,134,11,0.05);
+  --gradient-gold: linear-gradient(135deg, #d4a74a, #b8860b);
+  --gradient-card: linear-gradient(145deg, #141414, #1a0f14);
+  --gradient-romantic: linear-gradient(135deg, #0d0d0d, #1a0f14, #0d0d0d);
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--fg);
+  min-height: 100vh;
+  overflow-x: hidden;
+  direction: rtl;
+}
+
+h1, h2, h3, h4 { font-family: var(--font-heading); }
+
+.text-gradient-gold {
+  background: linear-gradient(135deg, #d4a74a, #b8860b, #8a6508);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.btn-gold {
+  background: var(--gradient-gold);
+  color: var(--bg);
+  border: none; border-radius: var(--radius);
+  font-weight: 700; cursor: pointer;
+  box-shadow: var(--shadow-gold);
+  transition: all 0.3s;
+  font-family: var(--font-body);
+}
+.btn-gold:hover { box-shadow: 0 0 40px rgba(184,134,11,0.3); transform: scale(1.02); }
+.btn-gold:active { transform: scale(0.98); }
+
+.btn-muted {
+  background: var(--muted); color: var(--fg);
+  border: none; border-radius: var(--radius);
+  cursor: pointer; transition: all 0.3s;
+  font-family: var(--font-body);
+}
+.btn-muted:hover { background: #2a2a2a; }
+
+.input-field {
+  width: 100%; background: var(--input-bg);
+  border: 1px solid var(--border-gold); border-radius: var(--radius);
+  padding: 12px 16px; color: var(--fg);
+  font-family: var(--font-body); font-size: 14px;
+  outline: none; transition: border-color 0.3s;
+}
+.input-field:focus { border-color: var(--gold); }
+.input-field::placeholder { color: var(--muted-fg); opacity: 0.6; }
+
+textarea.input-field { resize: none; }
+
+.card {
+  background: var(--gradient-card);
+  border: 1px solid var(--border-gold);
+  border-radius: 16px; padding: 24px;
+}
+
+.hidden { display: none !important; }
+
+/* Animations */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeInScale { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+@keyframes pulse-slow { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
+@keyframes heartFloat {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 0.8; }
+  100% { transform: translateY(-100vh) rotate(20deg); opacity: 0; }
+}
+@keyframes sparkle { 0%,100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 1; transform: scale(1.2); } }
+@keyframes heartPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+@keyframes shake { 0%,100% { transform: rotate(0deg); } 25% { transform: rotate(5deg); } 75% { transform: rotate(-5deg); } }
+
+.animate-fadeIn { animation: fadeIn 0.6s ease-out forwards; }
+.animate-fadeInScale { animation: fadeInScale 0.6s ease-out forwards; }
+.animate-float { animation: float 6s ease-in-out infinite; }
+.animate-pulse-slow { animation: pulse-slow 4s ease-in-out infinite; }
+.animate-heartPulse { animation: heartPulse 2s ease-in-out infinite; }
+.animate-shake { animation: shake 4s ease-in-out infinite; }
+
+/* Particles */
+.particle {
+  position: fixed; border-radius: 50%;
+  background: var(--gold); pointer-events: none;
+  animation: pulse-slow 4s ease-in-out infinite;
+  opacity: 0.3; z-index: 0;
+}
+
+/* Floating hearts */
+.floating-heart {
+  position: fixed; bottom: -30px;
+  color: var(--rose); pointer-events: none;
+  animation: heartFloat linear infinite;
+  z-index: 0; font-size: 20px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: rgba(184,134,11,0.3); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(184,134,11,0.5); }
+
+/* Layout helpers */
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.flex-between { display: flex; align-items: center; justify-content: space-between; }
+.gap-2 { gap: 8px; } .gap-3 { gap: 12px; } .gap-4 { gap: 16px; }
+
+/* ============================================================
+   Page: Landing
+   ============================================================ */
+#page-landing {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  background: var(--gradient-romantic); position: relative; overflow: hidden;
+}
+#page-landing .glow-1 {
+  position: absolute; top: 20%; left: 50%; transform: translate(-50%,-50%);
+  width: 600px; height: 600px; border-radius: 50%;
+  background: rgba(196,69,105,0.05); filter: blur(120px);
+}
+#page-landing .glow-2 {
+  position: absolute; bottom: 0; left: 25%;
+  width: 400px; height: 400px; border-radius: 50%;
+  background: rgba(184,134,11,0.05); filter: blur(100px);
+}
+.landing-content { position: relative; z-index: 10; width: 100%; max-width: 420px; padding: 0 24px; }
+.landing-logo { text-align: center; margin-bottom: 40px; animation: fadeIn 1s ease-out; }
+.landing-logo .icon-circle {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 80px; height: 80px; border-radius: 50%;
+  border: 1px solid var(--border-gold); margin-bottom: 24px;
+  box-shadow: var(--shadow-gold); animation: shake 4s ease-in-out infinite;
+}
+.landing-logo .icon-circle svg { width: 40px; height: 40px; color: var(--gold); }
+.landing-logo h1 { font-size: 2.2rem; margin-bottom: 8px; }
+.landing-logo p { color: var(--muted-fg); font-size: 1.1rem; font-weight: 300; }
+
+.code-card {
+  animation: fadeIn 1s ease-out 0.3s backwards;
+  box-shadow: var(--shadow-gold);
+}
+.code-card .card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+.code-card .card-header svg { width: 20px; height: 20px; color: var(--gold); }
+.code-card .card-header h2 { font-size: 1.2rem; }
+
+.code-input {
+  text-align: center; font-size: 1.1rem;
+  letter-spacing: 0.2em; direction: ltr;
+}
+
+.code-card .submit-btn { width: 100%; padding: 14px; font-size: 1.1rem; margin-top: 4px; }
+.code-card .error-msg { color: var(--rose); font-size: 0.85rem; text-align: center; margin-top: 8px; }
+.code-card .demo-codes { color: var(--muted-fg); font-size: 0.75rem; text-align: center; margin-top: 16px; }
+
+.admin-link {
+  text-align: center; margin-top: 32px;
+  animation: fadeIn 1s ease-out 0.6s backwards;
+}
+.admin-link button {
+  background: none; border: none; color: rgba(138,122,102,0.4);
+  font-size: 0.75rem; cursor: pointer; font-family: var(--font-body);
+  transition: color 0.3s;
+}
+.admin-link button:hover { color: var(--gold); }
+
+/* ============================================================
+   Page: Builder
+   ============================================================ */
+#page-builder .builder-header {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(20,20,20,0.8); backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(184,134,11,0.15);
+  padding: 12px 16px;
+}
+.builder-header .inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.builder-header .logo-section { display: flex; align-items: center; gap: 12px; }
+.builder-header .logo-section svg { width: 24px; height: 24px; color: var(--gold); }
+.builder-header .logo-section .code-badge {
+  font-size: 0.7rem; background: var(--muted); padding: 4px 8px;
+  border-radius: 6px; color: var(--muted-fg); direction: ltr;
+}
+.builder-header .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.builder-header .actions button { padding: 8px 16px; font-size: 0.85rem; display: flex; align-items: center; gap: 6px; }
+
+.builder-body { max-width: 800px; margin: 0 auto; padding: 24px 16px; }
+
+/* Tabs */
+.builder-tabs {
+  display: flex; gap: 4px; background: var(--muted);
+  border-radius: var(--radius); padding: 4px; margin-bottom: 32px;
+}
+.builder-tabs button {
+  flex: 1; padding: 10px; border: none; border-radius: 10px;
+  background: transparent; color: var(--muted-fg);
+  font-family: var(--font-body); font-size: 0.85rem;
+  cursor: pointer; transition: all 0.3s;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.builder-tabs button.active {
+  background: var(--card); color: var(--fg);
+  border: 1px solid rgba(184,134,11,0.15);
+  box-shadow: var(--shadow-gold);
+}
+.builder-tabs button svg { width: 16px; height: 16px; }
+
+/* Block picker */
+.block-picker { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-bottom: 16px; }
+.block-picker button {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  padding: 16px; background: var(--gradient-card);
+  border: 1px solid var(--border-gold); border-radius: var(--radius);
+  color: var(--fg); font-family: var(--font-body); font-size: 0.85rem;
+  cursor: pointer; transition: all 0.3s;
+}
+.block-picker button:hover { border-color: var(--gold); transform: scale(1.03); }
+.block-picker button svg { width: 24px; height: 24px; color: var(--gold); }
+
+/* Block item */
+.block-item {
+  background: var(--gradient-card); border: 1px solid var(--border-gold);
+  border-radius: 16px; padding: 20px; margin-bottom: 16px;
+  animation: fadeIn 0.4s ease-out;
+}
+.block-item-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.block-item-header .type-badge {
+  font-size: 0.7rem; background: rgba(184,134,11,0.1);
+  color: var(--gold); padding: 4px 8px; border-radius: 6px;
+  display: flex; align-items: center; gap: 6px;
+}
+.block-item-header .block-actions { display: flex; gap: 4px; }
+.block-item-header .block-actions button {
+  background: none; border: none; color: var(--muted-fg);
+  cursor: pointer; padding: 6px; border-radius: 8px; transition: all 0.3s;
+}
+.block-item-header .block-actions button:hover { background: var(--muted); color: var(--fg); }
+.block-item-header .block-actions button.delete:hover { background: rgba(231,76,60,0.1); color: var(--destructive); }
+
+/* File upload area */
+.file-upload {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 12px; min-height: 120px; background: var(--input-bg);
+  border: 2px dashed var(--border-gold); border-radius: var(--radius);
+  cursor: pointer; padding: 16px; transition: border-color 0.3s;
+}
+.file-upload:hover { border-color: var(--gold); }
+.file-upload svg { width: 40px; height: 40px; color: var(--muted-fg); }
+.file-upload span { font-size: 0.85rem; color: var(--muted-fg); }
+.file-upload .sub { font-size: 0.7rem; color: rgba(138,122,102,0.6); }
+.file-upload input[type="file"] { display: none; }
+.file-upload img { max-height: 200px; border-radius: 8px; object-fit: contain; }
+.file-upload video { max-height: 200px; border-radius: 8px; width: 100%; }
+.file-upload audio { width: 100%; }
+
+.remove-file { font-size: 0.75rem; color: var(--destructive); background: none; border: none; cursor: pointer; margin-top: 4px; font-family: var(--font-body); }
+.remove-file:hover { text-decoration: underline; }
+
+/* Color picker row */
+.color-row { margin-bottom: 24px; }
+.color-row label { font-size: 0.85rem; color: var(--muted-fg); margin-bottom: 8px; display: block; }
+.color-row .colors-flex { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.color-preview { width: 40px; height: 40px; border-radius: 8px; border: 1px solid var(--border-gold); flex-shrink: 0; }
+.color-swatch {
+  width: 32px; height: 32px; border-radius: 8px; border: 2px solid transparent;
+  cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center;
+}
+.color-swatch.active { border-color: var(--gold); transform: scale(1.15); }
+.color-swatch svg { width: 12px; height: 12px; color: var(--fg); }
+
+.block-colors { display: flex; align-items: center; gap: 6px; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(184,134,11,0.1); }
+.block-colors span { font-size: 0.7rem; color: var(--muted-fg); }
+.block-colors .color-swatch { width: 24px; height: 24px; }
+
+/* Toggle switch */
+.toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; }
+.toggle-row span { color: var(--fg); font-size: 0.9rem; }
+.toggle-switch {
+  width: 48px; height: 28px; border-radius: 14px; cursor: pointer;
+  position: relative; transition: background 0.3s; border: none;
+}
+.toggle-switch.on { background: var(--gold); }
+.toggle-switch.off { background: var(--muted); }
+.toggle-knob {
+  width: 20px; height: 20px; background: var(--fg); border-radius: 50%;
+  position: absolute; top: 4px; transition: 0.3s;
+}
+.toggle-switch.on .toggle-knob { right: 4px; left: auto; }
+.toggle-switch.off .toggle-knob { left: 4px; right: auto; }
+
+/* Speed buttons */
+.speed-buttons { display: flex; gap: 8px; }
+.speed-btn {
+  flex: 1; padding: 8px; border: none; border-radius: 8px;
+  font-family: var(--font-body); font-size: 0.85rem;
+  cursor: pointer; transition: all 0.3s;
+}
+.speed-btn.active { background: var(--gold); color: var(--bg); }
+.speed-btn:not(.active) { background: var(--muted); color: var(--muted-fg); }
+
+/* Published overlay */
+.published-overlay {
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(13,13,13,0.92); backdrop-filter: blur(20px);
+  display: flex; align-items: center; justify-content: center;
+}
+.published-card {
+  background: var(--gradient-card); border: 1px solid var(--border-gold);
+  border-radius: 16px; padding: 40px; max-width: 420px; width: 90%;
+  text-align: center; box-shadow: var(--shadow-gold);
+  animation: fadeInScale 0.5s ease-out;
+}
+.published-card .heart-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 64px; height: 64px; border-radius: 50%;
+  background: rgba(184,134,11,0.1); margin-bottom: 24px;
+}
+.published-card .heart-icon svg { width: 32px; height: 32px; color: var(--gold); }
+.published-card h2 { font-size: 1.5rem; margin-bottom: 12px; }
+.published-card .sub { color: var(--muted-fg); margin-bottom: 24px; }
+.published-card .link-box {
+  background: var(--muted); border-radius: var(--radius); padding: 14px;
+  font-family: monospace; font-size: 0.8rem; direction: ltr;
+  margin-bottom: 20px; word-break: break-all; color: var(--fg);
+}
+.published-card .btn-row { display: flex; gap: 12px; }
+.published-card .btn-row button { flex: 1; padding: 12px; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; gap: 6px; }
+.published-card .btn-outline {
+  background: none; border: 1px solid var(--border-gold); border-radius: var(--radius);
+  color: var(--fg); cursor: pointer; font-family: var(--font-body); transition: 0.3s;
+}
+.published-card .btn-outline:hover { background: var(--muted); }
+.published-card .back-link {
+  margin-top: 16px; background: none; border: none;
+  color: var(--muted-fg); font-size: 0.85rem; cursor: pointer;
+  font-family: var(--font-body); transition: 0.3s;
+}
+.published-card .back-link:hover { color: var(--fg); }
+
+/* No blocks */
+.no-blocks { text-align: center; padding: 60px 0; color: var(--muted-fg); }
+.no-blocks svg { width: 48px; height: 48px; margin: 0 auto 16px; opacity: 0.2; }
+
+/* ============================================================
+   Page: Album Viewer
+   ============================================================ */
+#page-viewer { min-height: 100vh; position: relative; overflow: hidden; }
+.viewer-particles, .viewer-hearts { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+.viewer-glow {
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 800px; height: 400px; border-radius: 50%;
+  background: rgba(184,134,11,0.05); filter: blur(150px);
+}
+.viewer-content { position: relative; z-index: 10; max-width: 640px; margin: 0 auto; padding: 48px 16px; }
+
+/* Password screen */
+.password-screen {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  background: var(--gradient-romantic); position: relative; overflow: hidden;
+}
+.password-card { max-width: 360px; width: 90%; text-align: center; animation: fadeInScale 0.6s ease-out; }
+.password-card svg.lock { width: 48px; height: 48px; color: var(--gold); margin: 0 auto 16px; }
+.password-card h2 { font-size: 1.3rem; margin-bottom: 8px; }
+.password-card .hint { color: var(--muted-fg); font-size: 0.85rem; margin-bottom: 16px; }
+.password-card .error { color: var(--rose); font-size: 0.85rem; margin: 8px 0; }
+
+/* Entrance screen */
+.entrance-screen {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  background: var(--gradient-romantic); position: relative; overflow: hidden;
+  text-align: center;
+}
+.entrance-screen .heart-big { animation: heartPulse 2s ease-in-out infinite; }
+.entrance-screen .heart-big svg { width: 80px; height: 80px; color: var(--gold); margin-bottom: 24px; }
+.entrance-screen h1 { font-size: 2.2rem; margin-bottom: 12px; }
+.entrance-screen .from { color: var(--muted-fg); font-size: 1.1rem; margin-bottom: 32px; }
+.entrance-screen .enter-btn { padding: 16px 40px; font-size: 1.1rem; border-radius: 16px; }
+
+/* Album block */
+.album-block {
+  border-radius: 16px; padding: 24px; margin-bottom: 32px;
+  border: 1px solid; animation: fadeIn 0.6s ease-out backwards;
+}
+.album-block h3 { font-family: var(--font-heading); font-size: 1.2rem; margin-bottom: 12px; }
+.album-block p { font-family: var(--font-amiri); font-size: 1.1rem; line-height: 1.8; white-space: pre-wrap; }
+.album-block img { width: 100%; border-radius: var(--radius); }
+.album-block audio, .album-block video { width: 100%; border-radius: var(--radius); }
+
+.hidden-msg-btn {
+  display: inline-block; padding: 12px 24px;
+  font-size: 0.95rem; border-radius: var(--radius);
+}
+.hidden-msg-content {
+  margin-top: 16px; font-family: var(--font-amiri);
+  font-size: 1.1rem; line-height: 1.8;
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Counter */
+.counter-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; text-align: center; }
+.counter-item {
+  background: rgba(31,31,31,0.5); border-radius: var(--radius);
+  padding: 16px; border: 1px solid rgba(184,134,11,0.1);
+}
+.counter-item .number { font-family: var(--font-heading); font-size: 1.8rem; }
+.counter-item .label { font-size: 0.75rem; color: var(--muted-fg); margin-top: 4px; }
+
+.album-footer { text-align: center; margin-top: 64px; padding-bottom: 32px; }
+.album-footer svg { width: 24px; height: 24px; color: var(--gold); margin: 0 auto 8px; }
+.album-footer p { color: var(--muted-fg); font-size: 0.85rem; }
+
+/* ============================================================
+   Page: Admin
+   ============================================================ */
+#page-admin .admin-header {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(20,20,20,0.8); backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(184,134,11,0.15); padding: 12px 16px;
+}
+.admin-header .inner { max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+.admin-header .logo-sec { display: flex; align-items: center; gap: 12px; }
+.admin-header .logo-sec svg { width: 24px; height: 24px; color: var(--gold); }
+.admin-header .home-btn {
+  background: none; border: none; color: var(--muted-fg); font-size: 0.85rem;
+  cursor: pointer; font-family: var(--font-body); display: flex; align-items: center; gap: 4px;
+  transition: 0.3s;
+}
+.admin-header .home-btn:hover { color: var(--fg); }
+.admin-body { max-width: 800px; margin: 0 auto; padding: 32px 16px; }
+.admin-add { display: flex; gap: 12px; }
+.admin-add input { flex: 1; direction: ltr; }
+.admin-add button { padding: 12px 24px; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+
+.code-item {
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(31,31,31,0.5); border-radius: var(--radius);
+  padding: 16px; border: 1px solid rgba(184,134,11,0.1);
+  margin-bottom: 12px; flex-wrap: wrap; gap: 8px;
+}
+.code-item .info { display: flex; align-items: center; gap: 16px; }
+.code-item .info svg { width: 20px; height: 20px; color: var(--gold); }
+.code-item .code-text { font-family: monospace; letter-spacing: 0.15em; font-size: 0.95rem; }
+.code-item .status-row { display: flex; align-items: center; gap: 12px; margin-top: 4px; }
+.code-item .status-badge {
+  font-size: 0.7rem; padding: 2px 8px; border-radius: 999px;
+}
+.status-new { background: rgba(39,174,96,0.1); color: var(--green); }
+.status-used { background: rgba(184,134,11,0.1); color: var(--gold); }
+.status-expired { background: rgba(231,76,60,0.1); color: var(--destructive); }
+.code-item .time-text { font-size: 0.7rem; color: var(--muted-fg); display: flex; align-items: center; gap: 4px; }
+.code-item .item-actions { display: flex; gap: 4px; }
+.code-item .item-actions button {
+  background: none; border: none; color: var(--muted-fg); padding: 6px;
+  border-radius: 8px; cursor: pointer; transition: 0.3s;
+}
+.code-item .item-actions button:hover { background: var(--muted); color: var(--fg); }
+.code-item .item-actions button.delete:hover { background: rgba(231,76,60,0.1); color: var(--destructive); }
+
+/* Responsive */
+@media (max-width: 600px) {
+  .builder-header .actions { width: 100%; justify-content: flex-end; }
+  .block-picker { grid-template-columns: repeat(2, 1fr); }
+  .counter-grid { grid-template-columns: repeat(2, 1fr); }
+  .published-card .btn-row { flex-direction: column; }
+  .admin-add { flex-direction: column; }
+  .code-item { flex-direction: column; align-items: flex-start; }
+  .code-item .item-actions { align-self: flex-end; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     SVG Icons (inline for standalone)
+     ============================================================ -->
+<svg style="display:none">
+  <symbol id="icon-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></symbol>
+  <symbol id="icon-key" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/></symbol>
+  <symbol id="icon-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+  <symbol id="icon-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="M12 5v14"/></symbol>
+  <symbol id="icon-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></symbol>
+  <symbol id="icon-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
+  <symbol id="icon-save" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></symbol>
+  <symbol id="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="icon-type" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" x2="15" y1="20" y2="20"/><line x1="12" x2="12" y1="4" y2="20"/></symbol>
+  <symbol id="icon-image" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></symbol>
+  <symbol id="icon-music" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></symbol>
+  <symbol id="icon-video" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 8-6 4 6 4V8Z"/><rect width="14" height="12" x="2" y="6" rx="2" ry="2"/></symbol>
+  <symbol id="icon-message" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"/></symbol>
+  <symbol id="icon-timer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="10" x2="14" y1="2" y2="2"/><line x1="12" x2="15" y1="14" y2="11"/><circle cx="12" cy="14" r="8"/></symbol>
+  <symbol id="icon-palette" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></symbol>
+  <symbol id="icon-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="icon-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+  <symbol id="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></symbol>
+  <symbol id="icon-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
+  <symbol id="icon-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+  <symbol id="icon-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+  <symbol id="icon-grip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="12" r="1"/><circle cx="9" cy="5" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="19" r="1"/></symbol>
+</svg>
+
+<div id="icon-fn" style="display:none"></div>
+
+<!-- ============================================================
+     Pages Container
+     ============================================================ -->
+<div id="page-landing"></div>
+<div id="page-builder" class="hidden"></div>
+<div id="page-viewer" class="hidden"></div>
+<div id="page-admin" class="hidden"></div>
+
+<script>
+/* ============================================================
+   JavaScript - كل الكود
+   ============================================================ */
+
+// ============================================================
+// ICON HELPER
+// ============================================================
+function icon(name, size = 24) {
+  return `<svg width="${size}" height="${size}"><use href="#icon-${name}"/></svg>`;
+}
+
+// ============================================================
+// DATABASE LAYER - جاهز للربط بقاعدة بياناتك
+// ============================================================
+// غيّر الفانكشنز دي لتربط بـ Firebase أو أي قاعدة بيانات
+// حاليًا تستخدم localStorage للتخزين المحلي
+
+const DB = {
+  // -------- أكواد --------
+  CODES_KEY: 'love_codes',
+  DEMO_CODES: [
+    { code: 'LOVE2024', used: false, createdAt: Date.now(), expiresAt: 0, firstUsedAt: null },
+    { code: 'HEART999', used: false, createdAt: Date.now(), expiresAt: 0, firstUsedAt: null },
+    { code: 'ROSE1234', used: false, createdAt: Date.now(), expiresAt: 0, firstUsedAt: null },
+  ],
+
+  getCodes() {
+    // TODO: استبدل بـ fetch من قاعدة البيانات
+    // مثال: return await fetch('/api/codes').then(r => r.json());
+    const stored = localStorage.getItem(this.CODES_KEY);
+    if (!stored) {
+      localStorage.setItem(this.CODES_KEY, JSON.stringify(this.DEMO_CODES));
+      return [...this.DEMO_CODES];
+    }
+    return JSON.parse(stored);
+  },
+
+  saveCodes(codes) {
+    // TODO: استبدل بـ POST لقاعدة البيانات
+    // مثال: await fetch('/api/codes', { method: 'POST', body: JSON.stringify(codes) });
+    localStorage.setItem(this.CODES_KEY, JSON.stringify(codes));
+  },
+
+  validateCode(code) {
+    // TODO: استبدل بـ API call
+    const codes = this.getCodes();
+    const found = codes.find(c => c.code === code.toUpperCase());
+    if (!found) return { valid: false, editable: false, message: 'الكود غير صحيح. تأكد من كتابة الكود بشكل صحيح.' };
+    if (found.used && found.firstUsedAt) {
+      const hours = (Date.now() - found.firstUsedAt) / (1000 * 60 * 60);
+      if (hours > 24) return { valid: true, editable: false, message: 'انتهت مدة التعديل. الألبوم متاح للعرض فقط.' };
+    }
+    if (!found.used) {
+      found.used = true;
+      found.firstUsedAt = Date.now();
+      found.expiresAt = Date.now() + 24 * 60 * 60 * 1000;
+      this.saveCodes(codes);
+    }
+    return { valid: true, editable: true, message: 'تم التحقق بنجاح!' };
+  },
+
+  addCode(code) {
+    const codes = this.getCodes();
+    codes.push({ code: code.toUpperCase(), used: false, createdAt: Date.now(), expiresAt: 0, firstUsedAt: null });
+    this.saveCodes(codes);
+  },
+
+  deleteCode(code) {
+    const codes = this.getCodes().filter(c => c.code !== code);
+    this.saveCodes(codes);
+    localStorage.removeItem('album_' + code);
+  },
+
+  extendCode(code, hours) {
+    const codes = this.getCodes();
+    const found = codes.find(c => c.code === code);
+    if (found && found.firstUsedAt) {
+      found.expiresAt = Date.now() + hours * 60 * 60 * 1000;
+      found.firstUsedAt = Date.now() - (24 - hours) * 60 * 60 * 1000;
+    }
+    this.saveCodes(codes);
+  },
+
+  // -------- ألبومات --------
+  getAlbum(code) {
+    // TODO: استبدل بـ fetch من قاعدة البيانات
+    // مثال: return await fetch('/api/albums/' + code).then(r => r.json());
+    const stored = localStorage.getItem('album_' + code.toUpperCase());
+    return stored ? JSON.parse(stored) : null;
+  },
+
+  saveAlbum(album) {
+    // TODO: استبدل بـ POST لقاعدة البيانات
+    // الملفات (صور/صوت/فيديو) محفوظة كـ Base64 في album.blocks[].content
+    // عند الربط بقاعدة بيانات، ارفع الملفات لـ Storage وخزن الرابط بدلاً من Base64
+    // مثال:
+    // for (const block of album.blocks) {
+    //   if (block.content && block.content.startsWith('data:')) {
+    //     block.content = await uploadFile(block.content);
+    //   }
+    // }
+    // await fetch('/api/albums/' + album.id, { method: 'POST', body: JSON.stringify(album) });
+    localStorage.setItem('album_' + album.id, JSON.stringify(album));
+  },
+
+  createDefaultAlbum(code) {
+    return {
+      id: code.toUpperCase(),
+      senderName: '', receiverName: '',
+      password: '', passwordHint: '',
+      mainMessage: '',
+      backgroundColor: '#0d0d0d', textColor: '#e6d5b8', borderColor: '#b8860b',
+      enableHearts: true, enableLights: true,
+      animationSpeed: 'normal', textSpeed: 'normal',
+      blocks: [], createdAt: Date.now(),
+      relationshipStartDate: '',
+    };
+  }
+};
+
+// ============================================================
+// ROMANTIC COLORS
+// ============================================================
+const ROMANTIC_COLORS = [
+  { name: 'ذهبي', value: '#b8860b' },
+  { name: 'وردي', value: '#c44569' },
+  { name: 'أحمر نبيذي', value: '#722f37' },
+  { name: 'بنفسجي داكن', value: '#4a0e4e' },
+  { name: 'أزرق ليلي', value: '#1a1a40' },
+  { name: 'أسود فاخر', value: '#0d0d0d' },
+  { name: 'كريمي', value: '#f5e6d3' },
+  { name: 'وردي فاتح', value: '#f7cac9' },
+];
+
+const BLOCK_TYPES = [
+  { type: 'text', icon: 'type', label: 'نص / مقالة' },
+  { type: 'image', icon: 'image', label: 'صورة' },
+  { type: 'music', icon: 'music', label: 'موسيقى' },
+  { type: 'video', icon: 'video', label: 'فيديو' },
+  { type: 'hidden-message', icon: 'message', label: 'رسالة مخفية' },
+  { type: 'counter', icon: 'timer', label: 'عداد العلاقة' },
+];
+
+// ============================================================
+// ROUTER
+// ============================================================
+function showPage(pageId) {
+  document.querySelectorAll('[id^="page-"]').forEach(p => p.classList.add('hidden'));
+  document.getElementById(pageId).classList.remove('hidden');
+}
+
+// ============================================================
+// PARTICLES & HEARTS
+// ============================================================
+function createParticles(container) {
+  let html = '';
+  for (let i = 0; i < 30; i++) {
+    const x = Math.random() * 100, y = Math.random() * 100;
+    const size = 1 + Math.random() * 3;
+    const delay = Math.random() * 5;
+    html += `<div class="particle" style="left:${x}%;top:${y}%;width:${size}px;height:${size}px;animation-delay:${delay}s"></div>`;
+  }
+  container.innerHTML = html;
+}
+
+function createFloatingHearts(container) {
+  let html = '';
+  for (let i = 0; i < 15; i++) {
+    const x = Math.random() * 100;
+    const delay = Math.random() * 5;
+    const dur = 4 + Math.random() * 4;
+    const size = 10 + Math.random() * 20;
+    html += `<div class="floating-heart" style="left:${x}%;font-size:${size}px;animation-duration:${dur}s;animation-delay:${delay}s">♥</div>`;
+  }
+  container.innerHTML = html;
+}
+
+// ============================================================
+// PAGE: LANDING
+// ============================================================
+function renderLanding() {
+  const el = document.getElementById('page-landing');
+  el.innerHTML = `
+    <div class="glow-1"></div><div class="glow-2"></div>
+    <div id="landing-particles"></div>
+    <div id="landing-hearts"></div>
+    <div class="landing-content">
+      <div class="landing-logo">
+        <div class="icon-circle">${icon('heart', 40)}</div>
+        <h1 class="text-gradient-gold">ألبوم الحب</h1>
+        <p>أنشئ لحظات لا تُنسى لمن تحب</p>
+      </div>
+      <div class="card code-card">
+        <div class="card-header">${icon('key', 20)}<h2>أدخل كود الشراء</h2></div>
+        <form id="code-form">
+          <input id="code-input" class="input-field code-input" type="text" placeholder="مثال: LOVE2024" dir="ltr" maxlength="20" autocomplete="off">
+          <div id="code-error" class="error-msg hidden"></div>
+          <button type="submit" class="btn-gold submit-btn" id="code-submit">دخول</button>
+        </form>
+        <p class="demo-codes">أكواد تجريبية: LOVE2024 • HEART999 • ROSE1234</p>
+      </div>
+      <div class="admin-link"><button id="goto-admin">لوحة التحكم</button></div>
+    </div>
+  `;
+  createParticles(document.getElementById('landing-particles'));
+  createFloatingHearts(document.getElementById('landing-hearts'));
+
+  const form = document.getElementById('code-form');
+  const input = document.getElementById('code-input');
+  const errEl = document.getElementById('code-error');
+
+  input.addEventListener('input', () => { input.value = input.value.toUpperCase(); errEl.classList.add('hidden'); });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const code = input.value.trim();
+    if (!code) { errEl.textContent = 'الرجاء إدخال الكود'; errEl.classList.remove('hidden'); return; }
+    const btn = document.getElementById('code-submit');
+    btn.textContent = 'جاري التحقق...'; btn.disabled = true;
+    await new Promise(r => setTimeout(r, 600));
+    const result = DB.validateCode(code);
+    btn.textContent = 'دخول'; btn.disabled = false;
+    if (result.valid) {
+      if (result.editable) { renderBuilder(code.toUpperCase()); }
+      else { renderViewer(code.toUpperCase()); }
+    } else {
+      errEl.textContent = result.message; errEl.classList.remove('hidden');
+    }
+  });
+
+  document.getElementById('goto-admin').addEventListener('click', renderAdmin);
+  showPage('page-landing');
+}
+
+// ============================================================
+// PAGE: BUILDER
+// ============================================================
+function renderBuilder(code) {
+  let album = DB.getAlbum(code) || DB.createDefaultAlbum(code);
+  let activeTab = 'content';
+  let showPicker = false;
+  let saved = false;
+
+  function save() { DB.saveAlbum(album); }
+  function render() { buildBuilderHTML(album, activeTab, showPicker, saved, code); }
+
+  function buildBuilderHTML(album, tab, picker, savedState, code) {
+    const el = document.getElementById('page-builder');
+    el.innerHTML = `
+      <header class="builder-header"><div class="inner">
+        <div class="logo-section">${icon('heart',24)}<h1 class="text-gradient-gold" style="font-size:1.1rem">بناء الألبوم</h1><span class="code-badge">${code}</span></div>
+        <div class="actions">
+          <button class="btn-muted" id="b-save" style="font-size:0.85rem;padding:8px 16px;display:flex;align-items:center;gap:6px">${savedState ? icon('check',16) : icon('save',16)} ${savedState ? 'تم الحفظ' : 'حفظ'}</button>
+          <button class="btn-muted" id="b-preview" style="font-size:0.85rem;padding:8px 16px;display:flex;align-items:center;gap:6px">${icon('eye',16)} معاينة</button>
+          <button class="btn-gold" id="b-publish" style="font-size:0.85rem;padding:8px 20px;display:flex;align-items:center;gap:6px">إنشاء الألبوم</button>
+        </div>
+      </div></header>
+      <div class="builder-body">
+        <div class="builder-tabs">
+          <button class="${tab==='content'?'active':''}" data-tab="content">${icon('type',16)} المحتوى</button>
+          <button class="${tab==='design'?'active':''}" data-tab="design">${icon('palette',16)} التصميم</button>
+          <button class="${tab==='settings'?'active':''}" data-tab="settings">${icon('settings',16)} الإعدادات</button>
+        </div>
+        <div id="tab-content"></div>
+      </div>
+      <div id="published-overlay" class="hidden"></div>
+    `;
+
+    // Tab switching
+    el.querySelectorAll('.builder-tabs button').forEach(btn => {
+      btn.addEventListener('click', () => { activeTab = btn.dataset.tab; render(); });
+    });
+
+    // Actions
+    el.querySelector('#b-save').addEventListener('click', () => { save(); saved = true; render(); setTimeout(() => { saved = false; render(); }, 2000); });
+    el.querySelector('#b-preview').addEventListener('click', () => renderViewer(code));
+    el.querySelector('#b-publish').addEventListener('click', () => {
+      save();
+      showPublished(code);
+    });
+
+    // Render active tab
+    if (tab === 'content') renderContentTab();
+    else if (tab === 'design') renderDesignTab();
+    else renderSettingsTab();
+  }
+
+  function renderContentTab() {
+    const container = document.getElementById('tab-content');
+    let html = `
+      <div class="card animate-fadeIn" style="margin-bottom:24px">
+        <h3 class="text-gradient-gold" style="margin-bottom:16px">المعلومات الأساسية</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div><label style="font-size:0.85rem;color:var(--muted-fg);display:block;margin-bottom:4px">اسمك</label>
+            <input class="input-field" id="f-sender" value="${esc(album.senderName)}" placeholder="اسمك هنا"></div>
+          <div><label style="font-size:0.85rem;color:var(--muted-fg);display:block;margin-bottom:4px">اسم الشخص المرسل له</label>
+            <input class="input-field" id="f-receiver" value="${esc(album.receiverName)}" placeholder="اسم حبيبك/حبيبتك"></div>
+        </div>
+        <div style="margin-top:16px"><label style="font-size:0.85rem;color:var(--muted-fg);display:block;margin-bottom:4px">الرسالة الرئيسية</label>
+          <textarea class="input-field" id="f-message" rows="4" placeholder="اكتب رسالتك الرومانسية هنا...">${esc(album.mainMessage)}</textarea></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px">
+          <div><label style="font-size:0.85rem;color:var(--muted-fg);display:block;margin-bottom:4px">كلمة المرور (اختياري)</label>
+            <input class="input-field" id="f-password" value="${esc(album.password)}" placeholder="كلمة مرور للألبوم"></div>
+          <div><label style="font-size:0.85rem;color:var(--muted-fg);display:block;margin-bottom:4px">تلميح كلمة المرور</label>
+            <input class="input-field" id="f-hint" value="${esc(album.passwordHint)}" placeholder="مثال: أول يوم عرفنا بعض"></div>
+        </div>
+        <div style="margin-top:16px"><label style="font-size:0.85rem;color:var(--muted-fg);display:block;margin-bottom:4px">تاريخ بداية العلاقة (للعداد)</label>
+          <input class="input-field" id="f-date" type="date" value="${album.relationshipStartDate}" dir="ltr"></div>
+      </div>
+
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <h3 class="text-gradient-gold">الأقسام</h3>
+        <button class="btn-gold" id="add-block-btn" style="padding:8px 16px;font-size:0.85rem;display:flex;align-items:center;gap:6px">${icon('plus',16)} إضافة قسم</button>
+      </div>
+      <div id="block-picker" class="${showPicker ? 'block-picker' : 'hidden'}"></div>
+    `;
+
+    if (album.blocks.length === 0) {
+      html += `<div class="no-blocks">${icon('heart',48)}<p>لا توجد أقسام بعد. أضف أقسام لبناء ألبومك!</p></div>`;
+    } else {
+      html += '<div id="blocks-list"></div>';
+    }
+
+    container.innerHTML = html;
+
+    // Bind basic info
+    bindInput('f-sender', v => album.senderName = v);
+    bindInput('f-receiver', v => album.receiverName = v);
+    bindInput('f-message', v => album.mainMessage = v);
+    bindInput('f-password', v => album.password = v);
+    bindInput('f-hint', v => album.passwordHint = v);
+    bindInput('f-date', v => album.relationshipStartDate = v);
+
+    // Add block button
+    document.getElementById('add-block-btn').addEventListener('click', () => { showPicker = !showPicker; render(); });
+
+    // Block picker
+    if (showPicker) {
+      const picker = document.getElementById('block-picker');
+      picker.innerHTML = BLOCK_TYPES.map(bt =>
+        `<button data-type="${bt.type}">${icon(bt.icon, 24)}<span>${bt.label}</span></button>`
+      ).join('');
+      picker.querySelectorAll('button').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const type = btn.dataset.type;
+          album.blocks.push({ id: 'block_' + Date.now(), type, content: '', title: '', color: '#0d0d0d', textColor: '#e6d5b8', order: album.blocks.length });
+          showPicker = false; render();
+        });
+      });
+    }
+
+    // Render blocks
+    if (album.blocks.length > 0) {
+      const list = document.getElementById('blocks-list');
+      list.innerHTML = album.blocks.map((block, i) => renderBlockEditor(block, i)).join('');
+      bindBlockEvents();
+    }
+  }
+
+  function renderBlockEditor(block, index) {
+    const typeInfo = BLOCK_TYPES.find(bt => bt.type === block.type);
+    let contentHTML = '';
+
+    if (block.type === 'text') {
+      contentHTML = `
+        <input class="input-field block-field" data-id="${block.id}" data-field="title" value="${esc(block.title||'')}" placeholder="عنوان القسم" style="margin-bottom:8px">
+        <textarea class="input-field block-field" data-id="${block.id}" data-field="content" rows="3" placeholder="اكتب نص المقالة...">${esc(block.content)}</textarea>
+      `;
+    } else if (block.type === 'image') {
+      contentHTML = `
+        <input class="input-field block-field" data-id="${block.id}" data-field="title" value="${esc(block.title||'')}" placeholder="عنوان الصورة (اختياري)" style="margin-bottom:8px">
+        <label class="file-upload">
+          ${block.content ? `<img src="${block.content}" alt="معاينة">` : `${icon('image',40)}<span>اضغط لاختيار صورة من جهازك</span>`}
+          <input type="file" accept="image/*" class="file-input" data-id="${block.id}">
+        </label>
+        ${block.content ? `<button class="remove-file" data-id="${block.id}">إزالة الصورة</button>` : ''}
+      `;
+    } else if (block.type === 'music') {
+      contentHTML = `
+        <label class="file-upload">
+          ${block.content ? `<div style="width:100%;text-align:center">${icon('music',24)}<span style="display:block;margin:8px 0;font-size:0.85rem;color:var(--fg)">تم رفع الموسيقى ✓</span><audio controls src="${block.content}" style="width:100%"></audio></div>` : `${icon('music',40)}<span>اضغط لاختيار ملف صوتي من جهازك</span><span class="sub">MP3, WAV, M4A, OGG</span>`}
+          <input type="file" accept="audio/*" class="file-input" data-id="${block.id}">
+        </label>
+        ${block.content ? `<button class="remove-file" data-id="${block.id}">إزالة الموسيقى</button>` : ''}
+      `;
+    } else if (block.type === 'video') {
+      contentHTML = `
+        <label class="file-upload">
+          ${block.content ? `<video controls src="${block.content}" style="width:100%;max-height:200px;border-radius:8px"></video>` : `${icon('video',40)}<span>اضغط لاختيار فيديو من جهازك</span><span class="sub">MP4, WebM, MOV</span>`}
+          <input type="file" accept="video/*" class="file-input" data-id="${block.id}">
+        </label>
+        ${block.content ? `<button class="remove-file" data-id="${block.id}">إزالة الفيديو</button>` : ''}
+      `;
+    } else if (block.type === 'hidden-message') {
+      contentHTML = `
+        <input class="input-field block-field" data-id="${block.id}" data-field="title" value="${esc(block.title||'')}" placeholder="نص الزر (مثال: اضغط لكشف السر 💌)" style="margin-bottom:8px">
+        <textarea class="input-field block-field" data-id="${block.id}" data-field="content" rows="2" placeholder="الرسالة المخفية...">${esc(block.content)}</textarea>
+      `;
+    } else if (block.type === 'counter') {
+      contentHTML = `<p style="font-size:0.85rem;color:var(--muted-fg)">سيظهر عداد تلقائي من تاريخ بداية العلاقة المحدد أعلاه ⏱️</p>`;
+    }
+
+    const colorSwatches = ROMANTIC_COLORS.slice(0, 5).map(c =>
+      `<div class="color-swatch block-color-swatch ${block.color === c.value ? 'active' : ''}" data-id="${block.id}" data-color="${c.value}" style="background:${c.value}" title="${c.name}"></div>`
+    ).join('');
+
+    return `
+      <div class="block-item">
+        <div class="block-item-header">
+          <div style="display:flex;align-items:center;gap:12px">
+            <span style="color:var(--muted-fg);cursor:grab">${icon('grip',16)}</span>
+            <span class="type-badge">${typeInfo?.label || block.type}</span>
+          </div>
+          <div class="block-actions">
+            <button class="dup-block" data-id="${block.id}" title="تكرار">${icon('copy',16)}</button>
+            <button class="delete del-block" data-id="${block.id}" title="حذف">${icon('trash',16)}</button>
+          </div>
+        </div>
+        ${contentHTML}
+        <div class="block-colors"><span>لون القسم:</span>${colorSwatches}</div>
+      </div>
+    `;
+  }
+
+  function bindBlockEvents() {
+    // Text fields
+    document.querySelectorAll('.block-field').forEach(field => {
+      field.addEventListener('input', () => {
+        const block = album.blocks.find(b => b.id === field.dataset.id);
+        if (block) block[field.dataset.field] = field.value;
+      });
+    });
+    // File inputs
+    document.querySelectorAll('.file-input').forEach(input => {
+      input.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          const block = album.blocks.find(b => b.id === input.dataset.id);
+          if (block) { block.content = reader.result; render(); }
+        };
+        reader.readAsDataURL(file);
+      });
+    });
+    // Remove file
+    document.querySelectorAll('.remove-file').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const block = album.blocks.find(b => b.id === btn.dataset.id);
+        if (block) { block.content = ''; render(); }
+      });
+    });
+    // Delete block
+    document.querySelectorAll('.del-block').forEach(btn => {
+      btn.addEventListener('click', () => {
+        album.blocks = album.blocks.filter(b => b.id !== btn.dataset.id);
+        render();
+      });
+    });
+    // Duplicate block
+    document.querySelectorAll('.dup-block').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const block = album.blocks.find(b => b.id === btn.dataset.id);
+        if (block) {
+          album.blocks.push({ ...block, id: 'block_' + Date.now(), order: album.blocks.length });
+          render();
+        }
+      });
+    });
+    // Block color
+    document.querySelectorAll('.block-color-swatch').forEach(swatch => {
+      swatch.addEventListener('click', () => {
+        const block = album.blocks.find(b => b.id === swatch.dataset.id);
+        if (block) { block.color = swatch.dataset.color; render(); }
+      });
+    });
+  }
+
+  function renderDesignTab() {
+    const container = document.getElementById('tab-content');
+    let html = '<div class="card animate-fadeIn"><h3 class="text-gradient-gold" style="margin-bottom:24px">الألوان</h3>';
+    [
+      { label: 'لون الخلفية', key: 'backgroundColor' },
+      { label: 'لون النص', key: 'textColor' },
+      { label: 'لون الإطار', key: 'borderColor' },
+    ].forEach(item => {
+      html += `<div class="color-row"><label>${item.label}</label><div class="colors-flex">
+        <div class="color-preview" style="background:${album[item.key]}"></div>
+        ${ROMANTIC_COLORS.map(c => `<div class="color-swatch album-color ${album[item.key]===c.value?'active':''}" data-key="${item.key}" data-color="${c.value}" style="background:${c.value}" title="${c.name}">${album[item.key]===c.value ? icon('check',12) : ''}</div>`).join('')}
+      </div></div>`;
+    });
+    html += '</div>';
+    container.innerHTML = html;
+
+    container.querySelectorAll('.album-color').forEach(swatch => {
+      swatch.addEventListener('click', () => {
+        album[swatch.dataset.key] = swatch.dataset.color;
+        render();
+      });
+    });
+  }
+
+  function renderSettingsTab() {
+    const container = document.getElementById('tab-content');
+    container.innerHTML = `
+      <div class="card animate-fadeIn">
+        <h3 class="text-gradient-gold" style="margin-bottom:24px">التأثيرات</h3>
+        <div class="toggle-row"><span>القلوب الطائرة</span>
+          <button class="toggle-switch ${album.enableHearts?'on':'off'}" id="t-hearts"><div class="toggle-knob"></div></button></div>
+        <div class="toggle-row"><span>الإضاءة والتوهج</span>
+          <button class="toggle-switch ${album.enableLights?'on':'off'}" id="t-lights"><div class="toggle-knob"></div></button></div>
+        <div style="margin-top:16px"><label style="font-size:0.9rem;display:block;margin-bottom:8px">سرعة الأنيميشن</label>
+          <div class="speed-buttons">
+            <button class="speed-btn ${album.animationSpeed==='slow'?'active':''}" data-speed="slow">بطيء</button>
+            <button class="speed-btn ${album.animationSpeed==='normal'?'active':''}" data-speed="normal">عادي</button>
+            <button class="speed-btn ${album.animationSpeed==='fast'?'active':''}" data-speed="fast">سريع</button>
+          </div>
+        </div>
+      </div>
+    `;
+    document.getElementById('t-hearts').addEventListener('click', () => { album.enableHearts = !album.enableHearts; render(); });
+    document.getElementById('t-lights').addEventListener('click', () => { album.enableLights = !album.enableLights; render(); });
+    container.querySelectorAll('.speed-btn').forEach(btn => {
+      btn.addEventListener('click', () => { album.animationSpeed = btn.dataset.speed; render(); });
+    });
+  }
+
+  function showPublished(code) {
+    const overlay = document.getElementById('published-overlay');
+    const link = window.location.origin + window.location.pathname + '?view=' + code;
+    overlay.classList.remove('hidden');
+    overlay.innerHTML = `
+      <div class="published-overlay">
+        <div class="published-card">
+          <div class="heart-icon animate-heartPulse">${icon('heart',32)}</div>
+          <h2 class="text-gradient-gold">تم إنشاء الألبوم! 🎉</h2>
+          <p class="sub">شارك الرابط مع من تحب</p>
+          <div class="link-box">${link}</div>
+          <div class="btn-row">
+            <button class="btn-gold" id="pub-copy">${icon('link',16)} نسخ الرابط</button>
+            <button class="btn-outline" id="pub-open">${icon('eye',16)} فتح الألبوم</button>
+          </div>
+          <button class="back-link" id="pub-back">العودة للتعديل</button>
+        </div>
+      </div>
+    `;
+    document.getElementById('pub-copy').addEventListener('click', () => {
+      navigator.clipboard.writeText(link);
+      document.getElementById('pub-copy').innerHTML = icon('check',16) + ' تم النسخ!';
+      setTimeout(() => { document.getElementById('pub-copy').innerHTML = icon('link',16) + ' نسخ الرابط'; }, 2000);
+    });
+    document.getElementById('pub-open').addEventListener('click', () => renderViewer(code));
+    document.getElementById('pub-back').addEventListener('click', () => { overlay.classList.add('hidden'); });
+  }
+
+  function bindInput(id, setter) {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', () => setter(el.value));
+  }
+
+  render();
+  showPage('page-builder');
+}
+
+// ============================================================
+// PAGE: ALBUM VIEWER
+// ============================================================
+function renderViewer(code) {
+  const album = DB.getAlbum(code);
+  const el = document.getElementById('page-viewer');
+
+  if (!album) {
+    el.innerHTML = `<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--gradient-romantic)">
+      <div style="text-align:center" class="animate-fadeIn">${icon('heart',64)}<p style="color:var(--muted-fg);font-size:1.1rem;margin-top:16px">الألبوم غير موجود</p>
+      <button class="btn-muted" onclick="renderLanding()" style="margin-top:24px;padding:10px 24px">العودة للرئيسية</button></div></div>`;
+    showPage('page-viewer');
+    return;
+  }
+
+  // Password check
+  if (album.password) {
+    showPasswordScreen(album, code, el);
+    return;
+  }
+
+  showEntranceScreen(album, code, el);
+}
+
+function showPasswordScreen(album, code, el) {
+  el.innerHTML = `
+    <div class="password-screen">
+      <div id="pw-particles"></div><div id="pw-hearts"></div>
+      <div class="card password-card" style="position:relative;z-index:10">
+        ${icon('lock',48)}
+        <h2 class="text-gradient-gold">ألبوم محمي</h2>
+        ${album.passwordHint ? `<p class="hint">💡 ${esc(album.passwordHint)}</p>` : ''}
+        <input class="input-field" id="pw-input" type="password" placeholder="أدخل كلمة المرور" style="text-align:center;margin-bottom:12px">
+        <div id="pw-error" class="error hidden">كلمة المرور غير صحيحة</div>
+        <button class="btn-gold" id="pw-submit" style="width:100%;padding:12px;font-size:1rem">فتح الألبوم</button>
+      </div>
+    </div>
+  `;
+  createParticles(document.getElementById('pw-particles'));
+  createFloatingHearts(document.getElementById('pw-hearts'));
+
+  const input = document.getElementById('pw-input');
+  const submit = document.getElementById('pw-submit');
+  const error = document.getElementById('pw-error');
+
+  function tryUnlock() {
+    if (input.value === album.password) { showEntranceScreen(album, code, el); }
+    else { error.classList.remove('hidden'); }
+  }
+  submit.addEventListener('click', tryUnlock);
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
+  input.addEventListener('input', () => error.classList.add('hidden'));
+
+  showPage('page-viewer');
+}
+
+function showEntranceScreen(album, code, el) {
+  el.innerHTML = `
+    <div class="entrance-screen">
+      <div id="ent-particles"></div><div id="ent-hearts"></div>
+      <div style="position:relative;z-index:10" class="animate-fadeIn">
+        <div class="heart-big">${icon('heart',80)}</div>
+        <h1 class="text-gradient-gold">إلى ${esc(album.receiverName || 'حبيبي')}</h1>
+        <p class="from">من ${esc(album.senderName || 'محب')} ♥</p>
+        <button class="btn-gold enter-btn" id="enter-album">افتح الألبوم 💝</button>
+      </div>
+    </div>
+  `;
+  createParticles(document.getElementById('ent-particles'));
+  createFloatingHearts(document.getElementById('ent-hearts'));
+  document.getElementById('enter-album').addEventListener('click', () => showAlbumContent(album, el));
+  showPage('page-viewer');
+}
+
+function showAlbumContent(album, el) {
+  const animDelay = album.animationSpeed === 'slow' ? 0.4 : album.animationSpeed === 'fast' ? 0.1 : 0.2;
+
+  let blocksHTML = album.blocks.map((block, i) => {
+    const delay = (i * animDelay + 0.5).toFixed(1);
+    let inner = '';
+
+    if (block.type === 'text') {
+      inner = `${block.title ? `<h3 class="text-gradient-gold">${esc(block.title)}</h3>` : ''}
+        <p>${esc(block.content)}</p>`;
+    } else if (block.type === 'image' && block.content) {
+      inner = `${block.title ? `<h3 class="text-gradient-gold">${esc(block.title)}</h3>` : ''}
+        <img src="${block.content}" alt="صورة الألبوم">`;
+    } else if (block.type === 'music' && block.content) {
+      inner = `<div style="text-align:center">${icon('music',32)}<audio controls src="${block.content}" style="width:100%;margin-top:12px"></audio></div>`;
+    } else if (block.type === 'video' && block.content) {
+      inner = `<video controls src="${block.content}" style="width:100%;border-radius:12px"></video>`;
+    } else if (block.type === 'hidden-message') {
+      inner = `<div style="text-align:center">
+        <button class="btn-gold hidden-msg-btn" data-id="${block.id}">${esc(block.title || 'اضغط لكشف السر 💌')}</button>
+        <div class="hidden-msg-content hidden" id="hmsg-${block.id}">${esc(block.content)}</div>
+      </div>`;
+    } else if (block.type === 'counter' && album.relationshipStartDate) {
+      inner = `<h3 class="text-gradient-gold" style="text-align:center;margin-bottom:16px">مدة حبنا ♥</h3>
+        <div class="counter-grid" id="counter-${block.id}">
+          <div class="counter-item"><div class="number text-gradient-gold" id="cnt-d-${block.id}">0</div><div class="label">يوم</div></div>
+          <div class="counter-item"><div class="number text-gradient-gold" id="cnt-h-${block.id}">0</div><div class="label">ساعة</div></div>
+          <div class="counter-item"><div class="number text-gradient-gold" id="cnt-m-${block.id}">0</div><div class="label">دقيقة</div></div>
+          <div class="counter-item"><div class="number text-gradient-gold" id="cnt-s-${block.id}">0</div><div class="label">ثانية</div></div>
+        </div>`;
+    }
+
+    return `<div class="album-block" style="background-color:${block.color||album.backgroundColor};border-color:${album.borderColor}40;color:${block.textColor||album.textColor};animation-delay:${delay}s">${inner}</div>`;
+  }).join('');
+
+  const footerDelay = (album.blocks.length * animDelay + 1).toFixed(1);
+
+  el.innerHTML = `
+    <div style="min-height:100vh;position:relative;overflow:hidden;background-color:${album.backgroundColor};color:${album.textColor}">
+      <div id="v-hearts" style="position:fixed;inset:0;pointer-events:none;z-index:0"></div>
+      <div id="v-particles" style="position:fixed;inset:0;pointer-events:none;z-index:0"></div>
+      <div class="viewer-glow"></div>
+      <div class="viewer-content">
+        <div style="text-align:center;margin-bottom:48px" class="animate-fadeIn">
+          ${icon('heart',40)}
+          <h1 class="text-gradient-gold" style="font-size:2.2rem;margin:16px 0">${esc(album.receiverName || 'حبيبي')}</h1>
+          ${album.mainMessage ? `<p style="font-family:var(--font-amiri);font-size:1.1rem;line-height:1.8;max-width:500px;margin:0 auto;color:${album.textColor}">${esc(album.mainMessage)}</p>` : ''}
+        </div>
+        ${blocksHTML}
+        <div class="album-footer" style="animation-delay:${footerDelay}s" class="animate-fadeIn">
+          ${icon('heart',24)}
+          <p>صنع بـ ♥ بواسطة ${esc(album.senderName || 'محب')}</p>
+        </div>
+      </div>
+    </div>
+  `;
+
+  if (album.enableHearts) createFloatingHearts(document.getElementById('v-hearts'));
+  if (album.enableLights) createParticles(document.getElementById('v-particles'));
+
+  // Hidden messages
+  el.querySelectorAll('.hidden-msg-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const msg = document.getElementById('hmsg-' + btn.dataset.id);
+      msg.classList.toggle('hidden');
+    });
+  });
+
+  // Counters
+  album.blocks.filter(b => b.type === 'counter').forEach(block => {
+    if (!album.relationshipStartDate) return;
+    const start = new Date(album.relationshipStartDate).getTime();
+    function updateCounter() {
+      const diff = Date.now() - start;
+      const d = document.getElementById('cnt-d-' + block.id);
+      const h = document.getElementById('cnt-h-' + block.id);
+      const m = document.getElementById('cnt-m-' + block.id);
+      const s = document.getElementById('cnt-s-' + block.id);
+      if (d) d.textContent = Math.floor(diff / (1000*60*60*24));
+      if (h) h.textContent = Math.floor((diff / (1000*60*60)) % 24);
+      if (m) m.textContent = Math.floor((diff / (1000*60)) % 60);
+      if (s) s.textContent = Math.floor((diff / 1000) % 60);
+    }
+    updateCounter();
+    setInterval(updateCounter, 1000);
+  });
+
+  showPage('page-viewer');
+}
+
+// ============================================================
+// PAGE: ADMIN
+// ============================================================
+function renderAdmin() {
+  const el = document.getElementById('page-admin');
+
+  function render() {
+    const codes = DB.getCodes();
+    el.innerHTML = `
+      <header class="admin-header"><div class="inner">
+        <div class="logo-sec">${icon('shield',24)}<h1 class="text-gradient-gold" style="font-size:1.1rem">لوحة التحكم</h1></div>
+        <button class="home-btn" id="admin-home">الرئيسية ${icon('arrow-right',16)}</button>
+      </div></header>
+      <div class="admin-body">
+        <div class="card" style="margin-bottom:32px">
+          <h3 class="text-gradient-gold" style="margin-bottom:16px">إضافة كود جديد</h3>
+          <div class="admin-add">
+            <input class="input-field" id="new-code-input" placeholder="أدخل الكود الجديد" dir="ltr">
+            <button class="btn-gold" id="add-code-btn">${icon('plus',16)} إضافة</button>
+          </div>
+        </div>
+        <div class="card">
+          <h3 class="text-gradient-gold" style="margin-bottom:16px">الأكواد (${codes.length})</h3>
+          <div id="codes-list">${codes.map(c => renderCodeItem(c)).join('')}</div>
+        </div>
+      </div>
+    `;
+
+    document.getElementById('admin-home').addEventListener('click', renderLanding);
+
+    const input = document.getElementById('new-code-input');
+    input.addEventListener('input', () => { input.value = input.value.toUpperCase(); });
+    const addBtn = document.getElementById('add-code-btn');
+    addBtn.addEventListener('click', () => {
+      if (!input.value.trim()) return;
+      DB.addCode(input.value.trim());
+      render();
+    });
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') addBtn.click(); });
+
+    // Code actions
+    el.querySelectorAll('.view-code').forEach(btn => btn.addEventListener('click', () => renderViewer(btn.dataset.code)));
+    el.querySelectorAll('.extend-code').forEach(btn => btn.addEventListener('click', () => { DB.extendCode(btn.dataset.code, 24); render(); }));
+    el.querySelectorAll('.delete-code').forEach(btn => btn.addEventListener('click', () => { DB.deleteCode(btn.dataset.code); render(); }));
+  }
+
+  function renderCodeItem(c) {
+    const expired = c.firstUsedAt && (Date.now() - c.firstUsedAt > 24*60*60*1000);
+    let remaining = 'غير مستخدم';
+    if (c.firstUsedAt) {
+      const rem = c.firstUsedAt + 24*60*60*1000 - Date.now();
+      if (rem <= 0) remaining = 'منتهي';
+      else { const h = Math.floor(rem/(1000*60*60)); const m = Math.floor((rem/(1000*60))%60); remaining = h + 'س ' + m + 'د'; }
+    }
+    const statusClass = !c.used ? 'status-new' : expired ? 'status-expired' : 'status-used';
+    const statusText = !c.used ? 'جديد' : expired ? 'منتهي' : 'مستخدم';
+
+    return `<div class="code-item">
+      <div class="info">${icon('key',20)}<div>
+        <span class="code-text">${c.code}</span>
+        <div class="status-row"><span class="status-badge ${statusClass}">${statusText}</span>
+        <span class="time-text">${icon('clock',12)} ${remaining}</span></div>
+      </div></div>
+      <div class="item-actions">
+        ${c.used ? `<button class="view-code" data-code="${c.code}" title="عرض الألبوم">${icon('eye',16)}</button>` : ''}
+        ${c.used && expired ? `<button class="extend-code" data-code="${c.code}" title="تمديد 24 ساعة">${icon('clock',16)}</button>` : ''}
+        <button class="delete delete-code" data-code="${c.code}" title="حذف">${icon('trash',16)}</button>
+      </div>
+    </div>`;
+  }
+
+  render();
+  showPage('page-admin');
+}
+
+// ============================================================
+// UTILITIES
+// ============================================================
+function esc(str) {
+  if (!str) return '';
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+// ============================================================
+// URL ROUTING
+// ============================================================
+function initRouter() {
+  const params = new URLSearchParams(window.location.search);
+  const viewCode = params.get('view');
+  const buildCode = params.get('build');
+  const page = params.get('page');
+
+  if (viewCode) { renderViewer(viewCode.toUpperCase()); }
+  else if (buildCode) { renderBuilder(buildCode.toUpperCase()); }
+  else if (page === 'admin') { renderAdmin(); }
+  else { renderLanding(); }
+}
+
+// Start
+initRouter();
+</script>
+</body>
+</html>
